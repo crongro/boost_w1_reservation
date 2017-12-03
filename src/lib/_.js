@@ -4,8 +4,4 @@ const _ = {
 	}
 }
 
-export function get() {
-	return 'true is true';
-}
-
 export default _;

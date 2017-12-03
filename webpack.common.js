@@ -8,9 +8,9 @@ module.exports = {
   },
   plugins: [
   	new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({
-      title: 'Output Management',
-    }),
+    // new HtmlWebpackPlugin({
+    //   title: 'Output Management',
+    // }),
   ],
   output: {
     filename: '[name].bundle.js',
@@ -19,6 +19,13 @@ module.exports = {
   },
   module: {
 	  rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+       }
+      },
 	  	{
 	   		test: /\.css$/,
 		   	use: [ 'style-loader', 'css-loader' ]
