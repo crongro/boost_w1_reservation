@@ -29,7 +29,14 @@ function init() {
 		},
 		'userMethod' : {},
 		'obj' : Swipe.SwipeStepMoverPlugin
-	}])
+	}]);
+
+	!(function movePanel() {
+		setTimeout(function(){
+			oMyswipe.runAutoAnimation("toRight");
+			movePanel();
+		}, 2000);
+	})();
 }
 
 document.addEventListener("DOMContentLoaded", evt => {
