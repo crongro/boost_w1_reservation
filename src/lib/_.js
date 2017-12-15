@@ -1,7 +1,6 @@
-const _ = {
-	log(msg) {
-		console.log('msg is ---=> ', msg);
-	}
+function getMsg(msg, msg2) {
+	return msg + msg2;
 }
 
-export default _;
+export {getMsg};
+

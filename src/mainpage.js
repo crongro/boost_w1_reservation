@@ -1,6 +1,8 @@
 import * as Swipe from './lib/swipe_merge_es5.js';
-import TabMenu from './main_Tabmenu.js';
+//import TabMenu from './main_Tabmenu.js';
 import 'whatwg-fetch';
+
+//import _ from './lib/_.js';
 
 function initSwipeModule() {
 	const elSwapWrap = document.querySelector(".visual_img");
@@ -45,7 +47,14 @@ function initTabModule() {
 	const itemKinds = _getItemKinds();
 	const elTabMenu = document.querySelector(".event_tab_lst");
 	const elMoreBtn = document.querySelector(".btn");
-	const tabMenuObj = new TabMenu(elTabMenu, itemKinds);
+	let tabMenuObj = null;
+
+	//tab 컴포넌트 동작
+	function initTabComponent() {
+		return import(/* webpackChunkName: "swipeObj" */ './main_Tabmenu.js').then(tabObj => {
+			return tabObj.default;
+		})
+	}
 
 	//TabMenu regist event 
 	elTabMenu.addEventListener("click", ({target}) => {
@@ -57,18 +66,23 @@ function initTabModule() {
 		elTabMenu.querySelector(".active").classList.remove("active");
 		a.classList.add("active");
 
-		//tab 컴포넌트 동작
-		tabMenuObj.run(Number(listIdx), false);
+		initTabComponent().then((tabClass) => {
+			tabMenuObj = tabMenuObj || new tabClass(elTabMenu, itemKinds);
+			tabMenuObj.run(Number(listIdx), false);
+			//more button 보여줄지 결정
+			tabMenuObj.decideBtnVisible();
+		});
 
-		//more button 보여줄지 결정
-		tabMenuObj.decideBtnVisible();
 	});
 
 	//MoreBtn regist event
 	elMoreBtn.addEventListener("click", (evt) => {
 		const currentIndex = document.querySelector(".event_tab_lst .active").parentElement.dataset.category;
-		//tab 컴포넌트 동작
-		tabMenuObj.run(Number(currentIndex), true);
+
+		initTabComponent().then((tabClass) => {
+			tabMenuObj = tabMenuObj || new tabClass(elTabMenu, itemKinds);
+			tabMenuObj.run(Number(currentIndex), true);
+		});
 	},false);
 
 	function _getItemKinds() {

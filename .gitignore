@@ -1,3 +1,4 @@
 /node_modules/*
 /dist/*
+/resources/html/*.js
 npm-debug.log

@@ -7,5 +7,5 @@ el.addEventListener("click", evt => {
 	console.log("clicked");
 }, false);
 
-_.log("msg is..");
+_.getMsg("msg is.. by index", "dddd");
 
