@@ -39,7 +39,8 @@ function initSwipeModule() {
 }
 
 /* layer open - close */
-function toggleLayer() {
+
+function toggleDetailInfo() {
 	const elMores = document.querySelectorAll(".bk_more");
 	const elStore_details = document.querySelector(".store_details");
 
@@ -51,14 +52,48 @@ function toggleLayer() {
 
 			elStore_details.classList.toggle("close3");
 			currentTarget.style.display = "none";
-			
+
 		},false)
 	});
 }
 
+
+function regReserveLink() {
+	const el = document.querySelector(".bk_btn");
+	el.addEventListener("click", (evt) => {
+		location.href = "./reserve.html";
+	}, false);
+}
+
+
+function initTabToggle() {
+	const ul = document.querySelector(".info_tab_lst");
+	const detail_area_wrap = document.querySelector(".detail_area_wrap");
+	const detail_location = document.querySelector(".detail_location");
+
+	ul.addEventListener("click", (evt) => {
+		evt.preventDefault();
+		const li = evt.target.closest('li');
+
+		if(li.classList.contains("_path")) {
+			detail_area_wrap.classList.add("hide");
+			detail_location.classList.remove("hide");
+			li.previousElementSibling.firstElementChild.classList.remove("active");
+		} else {
+			detail_area_wrap.classList.remove("hide");
+			detail_location.classList.add("hide");
+			li.nextElementSibling.firstElementChild.classList.remove("active");
+		}
+
+		li.firstElementChild.classList.add("active");
+	})
+}
+
 document.addEventListener("DOMContentLoaded", evt => {
 	initSwipeModule();
-	toggleLayer();
+	toggleDetailInfo();
+	regReserveLink();
+	initTabToggle();
 });
 
 
