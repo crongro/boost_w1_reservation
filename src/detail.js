@@ -17,7 +17,10 @@ function initSwipeModule() {
 
 	oMyswipe.registerUserMethod({
 		'FN_BEFORE_SWIPE': function(n){},
-		'FN_AFTER_SWIPE': function(n){},
+		'FN_AFTER_SWIPE': function(n) {
+			const elNum = document.querySelector(".figure_pagination .num:nth-child(1)");
+			elNum.innerText = n+1;
+		},
 		'FN_COMPONENT_DID_LOAD' : function(){}
 	});
 
