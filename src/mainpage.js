@@ -1,5 +1,4 @@
 import * as Swipe from './lib/swipe_merge_es5.js';
-//import TabMenu from './main_Tabmenu.js';
 import 'whatwg-fetch';
 
 //import _ from './lib/_.js';

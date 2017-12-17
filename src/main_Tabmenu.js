@@ -2,7 +2,10 @@
 class TabMenu {
 	constructor(el, itemKinds) {
 		this.itemKinds = itemKinds;
-		this.htmlULs = {}; //html cache
+		this.elULs = document.querySelectorAll(".lst_event_box");
+		this.htmlULs = {1:[]}; //html cache
+		this.htmlULs[1][0] = this.elULs[0].innerHTML;
+		this.htmlULs[1][1] = this.elULs[1].innerHTML;
 	}
 
 	run(currentIndex, bMoreBtn=false) {
@@ -24,33 +27,28 @@ class TabMenu {
 	}
 
 	insertHTML(htmls, currentIndex) {
-		const elULs = document.querySelectorAll(".lst_event_box");
 		const leftList =  htmls[currentIndex] + htmls[currentIndex+1];
 		const rightList =  htmls[currentIndex + 2] + htmls[currentIndex+3];
 
 		if(this.bMoreBtn) {
-			elULs[1].insertAdjacentHTML('beforeend', rightList);
-			elULs[0].insertAdjacentHTML('beforeend', leftList);
+			this.elULs[1].insertAdjacentHTML('beforeend', rightList);
+			this.elULs[0].insertAdjacentHTML('beforeend', leftList);
 			//추가했음 more버튼 none
 			document.querySelector(".more .btn").style.display = "none";
 		} else {
-			elULs[0].innerHTML = leftList;
-			elULs[1].innerHTML = rightList;
+			this.elULs[0].innerHTML = leftList;
+			this.elULs[1].innerHTML = rightList;
 		}
 
 		this.decideBtnVisible();
 
 		this.htmlULs[currentIndex] = [];
-		this.htmlULs[currentIndex].push(elULs[0].innerHTML);
-		this.htmlULs[currentIndex].push(elULs[1].innerHTML);
-
-
-
+		this.htmlULs[currentIndex].push(this.elULs[0].innerHTML);
+		this.htmlULs[currentIndex].push(this.elULs[1].innerHTML);
 	}
 
 	insertItemList(currentIndex, bMoreBtn) {
 		this.bMoreBtn = bMoreBtn;
-		const elULs = document.querySelectorAll(".lst_event_box");
 
 		if(bMoreBtn) {
 			this.getData(currentIndex, this.makeTemplate);
@@ -60,8 +58,8 @@ class TabMenu {
 		if(this.htmlULs[currentIndex] === undefined) { 
 			this.getData(currentIndex, this.makeTemplate);
 		} else  {
-			elULs[0].innerHTML = this.htmlULs[currentIndex][0];
-			elULs[1].innerHTML = this.htmlULs[currentIndex][1];
+			this.elULs[0].innerHTML = this.htmlULs[currentIndex][0];
+			this.elULs[1].innerHTML = this.htmlULs[currentIndex][1];
 		}
 	}
 
