@@ -1,8 +1,10 @@
 //export and dynamic loader
 class TabMenu {
-	constructor(el, itemKinds) {
+	constructor(el, itemKinds, fnAfterTabContentChange) {
 		this.itemKinds = itemKinds;
 		this.elULs = document.querySelectorAll(".lst_event_box");
+		this.fnAfterTabContentChange = fnAfterTabContentChange;
+
 		this.htmlULs = {1:[]}; //html cache
 		this.htmlULs[1][0] = this.elULs[0].innerHTML;
 		this.htmlULs[1][1] = this.elULs[1].innerHTML;
@@ -40,11 +42,11 @@ class TabMenu {
 			this.elULs[1].innerHTML = rightList;
 		}
 
-		this.decideBtnVisible();
-
 		this.htmlULs[currentIndex] = [];
 		this.htmlULs[currentIndex].push(this.elULs[0].innerHTML);
 		this.htmlULs[currentIndex].push(this.elULs[1].innerHTML);
+
+		if(typeof this.fnAfterTabContentChange === "function" ) this.fnAfterTabContentChange();
 	}
 
 	insertItemList(currentIndex, bMoreBtn) {
@@ -60,15 +62,7 @@ class TabMenu {
 		} else  {
 			this.elULs[0].innerHTML = this.htmlULs[currentIndex][0];
 			this.elULs[1].innerHTML = this.htmlULs[currentIndex][1];
-		}
-	}
-
-	decideBtnVisible() {
-		const elbtn = document.querySelector(".more .btn");
-		if(document.querySelectorAll(".lst_event_box li").length > 4) {
-			elbtn.style.display = "none";
-		} else {
-			elbtn.style.display = "block";
+			if(typeof this.fnAfterTabContentChange === "function" ) this.fnAfterTabContentChange();
 		}
 	}
 

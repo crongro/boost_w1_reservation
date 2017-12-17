@@ -55,6 +55,29 @@ function initTabModule() {
 		})
 	}
 
+	/* AFTER_CALLBACK LIST ******************************/
+	// function afterTabContentChange() {
+	// 	const el = document.querySelector(".event_lst_txt span.pink");
+	// 	const liListLen = document.querySelectorAll(".lst_event_box li").length;
+	// 	el.innerText = liListLen + "개";
+	// }
+
+
+	function decideBtnVisible() {
+		const elbtn = document.querySelector(".more .btn");
+		if(document.querySelectorAll(".lst_event_box li").length > 4) {
+			elbtn.style.display = "none";
+		} else {
+			elbtn.style.display = "block";
+		}
+	}
+
+	function afterTabContentChange() {
+		decideBtnVisible();
+	}
+
+	/*****************************************************/
+
 	//TabMenu regist event 
 	elTabMenu.addEventListener("click", ({target}) => {
 		if(target.nodeName === "UL") return;
@@ -66,10 +89,10 @@ function initTabModule() {
 		a.classList.add("active");
 
 		initTabComponent().then((tabClass) => {
-			tabMenuObj = tabMenuObj || new tabClass(elTabMenu, itemKinds);
+			tabMenuObj = tabMenuObj || new tabClass(elTabMenu, itemKinds, afterTabContentChange);
 			tabMenuObj.run(Number(listIdx), false);
-			//more button 보여줄지 결정
-			tabMenuObj.decideBtnVisible();
+			// //more button 보여줄지 결정
+			// tabMenuObj.decideBtnVisible();
 		});
 
 	});
@@ -79,7 +102,7 @@ function initTabModule() {
 		const currentIndex = document.querySelector(".event_tab_lst .active").parentElement.dataset.category;
 
 		initTabComponent().then((tabClass) => {
-			tabMenuObj = tabMenuObj || new tabClass(elTabMenu, itemKinds);
+			tabMenuObj = tabMenuObj || new tabClass(elTabMenu, itemKinds, afterTabContentChange);
 			tabMenuObj.run(Number(currentIndex), true);
 		});
 	},false);
