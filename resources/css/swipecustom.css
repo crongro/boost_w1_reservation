@@ -9,10 +9,10 @@
   transform: translate3d(0px, 0px, 0px);
 }
 
-.event .section_visual .group_visual .container_visual .visual_img li.item{
-  width :100%;
-  position: absolute;
-  top: 0;
+.section_visual .group_visual .container_visual .visual_img li.item{
+  width :100%!important;
+  position: absolute!important;
+  top: 0!important;
 }
 
 .visual_img > li:nth-child(1) {
