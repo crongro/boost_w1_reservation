@@ -38,9 +38,27 @@ function initSwipeModule() {
 
 }
 
+/* layer open - close */
+function toggleLayer() {
+	const elMores = document.querySelectorAll(".bk_more");
+	const elStore_details = document.querySelector(".store_details");
+
+	Array.prototype.forEach.call(elMores, function(element, index) {
+		element.addEventListener("click", ({currentTarget}) => {
+
+			if( currentTarget.classList.contains("_open")) currentTarget.nextElementSibling.style.display = "block";
+			else currentTarget.previousElementSibling.style.display = "block";
+
+			elStore_details.classList.toggle("close3");
+			currentTarget.style.display = "none";
+			
+		},false)
+	});
+}
 
 document.addEventListener("DOMContentLoaded", evt => {
 	initSwipeModule();
+	toggleLayer();
 });
 
 
