@@ -19,10 +19,11 @@ module.exports = {
       title: 'Code Splitting',
     })
   ],
+  /* todo. change directory */
   output: {
-    filename: 'bundle/[name].bundle.js',
+    filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'resources')
+    path: path.resolve(__dirname, 'resources/bundle')
   },
   module: {
 	  rules: [

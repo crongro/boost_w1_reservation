@@ -1,5 +1,4 @@
 /node_modules/*
 /dist/*
-/resources/html/*.js
 /resources/bundle/*.js
 npm-debug.log
