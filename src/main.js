@@ -49,8 +49,12 @@ function initTabModule() {
 	let tabMenuObj = null;
 
 	//tab 컴포넌트 동작
+	/*. 
+		이녀석은 html파일을 기준으로 디렉토리를 찾는다. 
+		따라서 html과 같은 디렉토리에 번들위치를 설정해두었다. (webpack.comon.js output-chunkFilename항목같이 참고)
+	*/
 	function initTabComponent() {
-		return import(/* webpackChunkName: "swipeObj" */ './main_Tabmenu.js').then(tabObj => {
+		return import(/* webpackChunkName: "main_Tabmenu" */ './main_Tabmenu.js').then(tabObj => {
 			return tabObj.default;
 		})
 	}

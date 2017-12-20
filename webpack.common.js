@@ -7,7 +7,8 @@ module.exports = {
   entry: {
   	//index: './src/index.js',
     main: './src/main.js',
-    detail: './src/detail.js'
+    detail: './src/detail.js',
+    reserve: './src/reserve.js',
   },
   plugins: [
   	new CleanWebpackPlugin(['dist']),
@@ -19,9 +20,9 @@ module.exports = {
     })
   ],
   output: {
-    filename: '[name].bundle.js',
+    filename: 'bundle/[name].bundle.js',
     chunkFilename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'resources/html')
+    path: path.resolve(__dirname, 'resources')
   },
   module: {
 	  rules: [
