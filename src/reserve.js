@@ -45,7 +45,7 @@ class TicketReservation {
 
 		this.setCountValue(elCountValue, countValue)
 			  .removeClass(elCountValue, this.DATA.disabled)
-			  .updatePartialPrice();
+			  .updatePartialPrice(target, countValue);
 	}
 
 	setCountValue(elCountValue, countValue) {
@@ -69,8 +69,13 @@ class TicketReservation {
 		return this;
 	}
 
-	updatePartialPrice(target) {
-
+	updatePartialPrice(target, countValue) {
+		//const elPrice = target.
+		const elPrice = target.closest(".count_control").querySelector(".total_price");
+		const price = +(target.closest(".qty").querySelector(".price").innerText.replace(/\,/,""));
+		const totalPrice = price * countValue;
+		const priceGubun = (totalPrice+"").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+		elPrice.innerText = priceGubun;
 	}
 
 } //end of class
