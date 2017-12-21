@@ -14,14 +14,45 @@ class TicketReservation {
 
 	regCountBtn() {
 		const elTicketBody = document.querySelector(".ticket_body");
+		const elAgreementBtn = document.querySelector(".section_booking_agreement");
+		const name = document.querySelector("#name");
+		const tel = document.querySelector("#tel");
+		const agreeChk = document.querySelector("#chk3");
+
 		elTicketBody.addEventListener("click", (e) => {
 			e.preventDefault();
 			const target = e.target;
 			if(!this._isCountBtn(target)) return;
 			const btnType = (target.classList.contains(this.matchedClassNameList[0])) ? "-" : "+";
-
 			this._resetCountValue(btnType, target);
+			this.checkValidationValue();
 		});
+
+		elAgreementBtn.addEventListener("click", (e) => {
+			const target = e.target;
+			const btn_agreement = target.closest(".btn_agreement");
+			if(!btn_agreement) return;
+
+			e.preventDefault();
+
+			const elText = btn_agreement.querySelector(".btn_text");
+			const elUpDown = btn_agreement.querySelector(".fn");
+			const elAgreement = target.closest(".agreement");
+
+			elAgreement.classList.toggle("open");
+			elUpDown.classList.toggle("fn-down2");
+			elUpDown.classList.toggle("fn-up2");
+
+			if(elAgreement.classList.contains("open")) elText.innerText = "접기";
+			else elText.innerText = "보기";
+
+		});
+
+		name.addEventListener("change", (e) => this.checkValidationValue());
+		tel.addEventListener("change", (e) => this.checkValidationValue());
+		agreeChk.addEventListener("change", (e) => this.checkValidationValue());
+
+
 	}
 
 	_isCountBtn(target) {
@@ -45,7 +76,8 @@ class TicketReservation {
 
 		this.setCountValue(elCountValue, countValue)
 			  .removeClass(elCountValue, this.DATA.disabled)
-			  .updatePartialPrice(target, countValue);
+			  .updatePartialPrice(target, countValue)
+			  .updateTotalCount();
 	}
 
 	setCountValue(elCountValue, countValue) {
@@ -76,6 +108,37 @@ class TicketReservation {
 		const totalPrice = price * countValue;
 		const priceGubun = (totalPrice+"").replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 		elPrice.innerText = priceGubun;
+		return this;
+	}
+
+	updateTotalCount() {
+		const elTC = document.querySelector("#totalCount");
+		const countList = document.querySelectorAll(".count_control_input");
+		const totalCount = [].reduce.call(countList, (prev, next) => {
+			return prev+ +(next.value);
+		}, 0);
+		elTC.innerText = totalCount;
+	}
+
+	checkValidationValue() {
+		const bk_btn_wrap = document.querySelector(".bk_btn_wrap");
+		let bok = true;
+
+		const count = +(document.querySelector("#totalCount").innerText);
+		if(count < 1) bok = false;
+
+		const name = document.querySelector("#name");
+		if(name.value.length < 1) bok = false;
+
+		const tel = document.querySelector("#tel");
+		if(tel.value.length < 1) bok = false;
+
+		const bAgreeChk = document.querySelector("#chk3").checked;
+		if(!bAgreeChk) bok = false;
+
+		if(bok) bk_btn_wrap.classList.remove("disable");
+		else bk_btn_wrap.classList.add("disable");
+
 	}
 
 } //end of class
