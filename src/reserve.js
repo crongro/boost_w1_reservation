@@ -25,7 +25,7 @@ class TicketReservation {
 			if(!this._isCountBtn(target)) return;
 			const btnType = (target.classList.contains(this.matchedClassNameList[0])) ? "-" : "+";
 			this._resetCountValue(btnType, target);
-			this.checkValidationValue();
+			this.confirmInputCompletion();
 		});
 
 		elAgreementBtn.addEventListener("click", (e) => {
@@ -48,11 +48,17 @@ class TicketReservation {
 
 		});
 
-		name.addEventListener("change", (e) => this.checkValidationValue());
-		tel.addEventListener("change", (e) => this.checkValidationValue());
-		agreeChk.addEventListener("change", (e) => this.checkValidationValue());
-
-
+		name.addEventListener("change", (e) =>  { this.confirmInputCompletion()});
+		tel.addEventListener("change", (e) =>  { 
+			if(!(/^\d[\d-]{8,}\d$/).test(e.target.value)) { 
+				document.querySelector(".warning_msg").style.visibility = 'visible';
+				setTimeout(() => {
+					document.querySelector(".warning_msg").style.visibility = 'hidden';
+				}, 1200);
+			}
+			this.confirmInputCompletion();
+		});
+		agreeChk.addEventListener("change", (e) => this.confirmInputCompletion());
 	}
 
 	_isCountBtn(target) {
@@ -120,7 +126,7 @@ class TicketReservation {
 		elTC.innerText = totalCount;
 	}
 
-	checkValidationValue() {
+	confirmInputCompletion() {
 		const bk_btn_wrap = document.querySelector(".bk_btn_wrap");
 		let bok = true;
 
