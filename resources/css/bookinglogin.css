@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Naver booking Icons";
-    src: url('/../img/fonts/Naver-booking-Icons.woff?456918077') format('woff');
+    //src: url('/../img/fonts/Naver-booking-Icons.woff?456918077') format('woff');
     font-weight: 400;
     font-style: normal
 }
@@ -126,7 +126,7 @@
 }
 @font-face {
     font-family: "Naver Icons";
-    src: url('/../img/fonts/Naver-Icons.woff?456918077') format('woff');
+    //src: url('/../img/fonts/Naver-Icons.woff?456918077') format('woff');
     font-weight: 400;
     font-style: normal
 }
@@ -1363,7 +1363,7 @@ hr {
 .spr_icons {
     width: 30px;
     height: 30px;
-    background-image: url(../../img/spr_icons.629bfb7d82c6c1d00d86af55a6ead979.png);
+    //background-image: url(../../img/spr_icons.629bfb7d82c6c1d00d86af55a6ead979.png);
     background-size: 200px 320px;
     font-size: 0
 }
@@ -1533,7 +1533,7 @@ hr {
     background-position: 0 -288px
 }
 .spr_book {
-    background-image: url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
+    //background-image: url(../img/spr_book.ada46c4e031284d4b513fda5c38b5187.png);
     background-size: 400px 400px
 }
 .spr_book.ico_nessasary {
@@ -1685,7 +1685,7 @@ hr {
     background-position: -358px -295px
 }
 .spr_book2 {
-    background-image: url(../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
+    //background-image: url(../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
     background-size: 330px 400px;
     font-size: 0
 }
@@ -2762,7 +2762,7 @@ select {
     left: 0;
     width: 9px;
     height: 11px;
-    background-image: url(.../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
+    //background-image: url(.../img/spr_book2.9951b6760ed19190feefaf8e9c5bed2e.png);
     background-size: 330px 400px;
     background-repeat: no-repeat;
     background-position: -299px -26px;
