@@ -9,6 +9,7 @@ module.exports = {
     main: './src/main.js',
     detail: './src/detail.js',
     reserve: './src/reserve.js',
+    myreservation : './src/myreservation.js'
   },
   plugins: [
   	new CleanWebpackPlugin(['dist']),

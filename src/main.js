@@ -1,4 +1,5 @@
 import * as Swipe from './lib/swipe_merge_es5.js';
+import * as common from './common.js';
 import 'whatwg-fetch';
 
 //import _ from './lib/_.js';
@@ -120,9 +121,16 @@ function initTabModule() {
 	}
 }
 
+function checkLoginFromStorage() {
+	const email = common.getEmail();
+	const elViewReservation  = document.querySelector(".viewReservation");
+	if(email !== null) elViewReservation.innerText = email;
+}
+
 document.addEventListener("DOMContentLoaded", evt => {
 	initSwipeModule();
 	initTabModule();
+	checkLoginFromStorage();
 });
 
 
