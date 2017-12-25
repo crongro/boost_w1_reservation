@@ -1,3 +1,40 @@
+function setStarRating() {
+	document.querySelector(".rating").addEventListener("click", ({target:t}) => {
+
+		const starRank = document.querySelector(".star_rank")
+
+		if(! (t.tagName === "INPUT")) {
+			return;
+		}
+
+		let prev = t.previousElementSibling;
+		let next = t.nextElementSibling;
+
+		//previous
+		while(true) { 
+			if(prev === null ) break;
+			if( (prev.tagName === 'INPUT') ) {
+				prev.classList.add("checked");
+			}
+			prev  = prev.previousElementSibling;
+		}
+
+		//next
+		while(true) { 
+			if(next === null ) break;
+			if( (next.tagName === 'INPUT') ) {
+				next.classList.remove("checked");
+				next.checked = false;
+			}
+			next  = next.nextElementSibling;
+		}
+
+		//set value
+		starRank.innerText = t.value;
+		starRank.classList.remove("gray_star");
+
+	});
+}
 
 function valideImage(image) {
 	const result = ([ 'image/jpeg',
@@ -31,6 +68,7 @@ function deleteThumnailImage() {
 }
 
 function registerEvents() {
+	setStarRating();
 	changeImageFile();
 	deleteThumnailImage();
 }
