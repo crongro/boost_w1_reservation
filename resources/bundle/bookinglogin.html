@@ -24,19 +24,23 @@
       <meta name="format-detection" content="telephone=no, address=no, email=no">
       <title translate="CM-NBOOKING">네이버 예약</title>
       <link rel="stylesheet" href="../css/bookinglogin.css">
+      <script>
+         var sEmail = localStorage.getItem("email");
+         if(sEmail !== null) location.href="./myreservation.html"
+      </script>
    </head>
    <body class="biz  ko" >
       
       <app>
          <toast-alert class="top_info hide booking_alert">
             <p class="top_info_txt"> <i class="fn fn-info1" aria-hidden="true"></i> <span class="_toast_alert_text"></span> </p>
-            <a href="https://m.booking.naver.com/#" class="top_info_close"  data-tst_alt_close="0"> <i class="fn fn-close" aria-hidden="true"></i> <span class="sr_only" translate="CM-CLOSE">닫기</span> </a> 
+            <a href="./mainpage.html" class="top_info_close"  data-tst_alt_close="0"> <i class="fn fn-close" aria-hidden="true"></i> <span class="sr_only" translate="CM-CLOSE">닫기</span> </a> 
          </toast-alert>
          <!---->
          <div class="_view_content" ui-view="content" id="container" >
             <booked-confirm>
                <div class="booking_login">
-                  <h1 class="login_header"> <a href="https://m.booking.naver.com/m.booking.naver.com"  class="nbooking_logo spr_bi txt_logo" > <span translate="CM-NBOOKING">네이버 예약</span> </a> </h1>
+                  <h1 class="login_header"> <a href="./mainpage.html"  class="nbooking_logo spr_bi txt_logo" > <span translate="CM-NBOOKING">네이버 예약</span> </a> </h1>
                   <!---->
                   <div >
                      <form name="confirm_form" class="ng-pristine ng-valid" id="form1" action="./myreservation.html">
@@ -102,18 +106,7 @@
          </translater-modal>
       </app>
 
-      <script>
-         document.querySelector(".login_btn").addEventListener("click", function(e) {
-            e.preventDefault();
-            const reg = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
-            const email = document.querySelector("#resrv_id").value;
-            if(reg.test(email)) {
-               localStorage.setItem('email', email);
-               document.getElementById("form1").submit();
-            }else {
-               alert("올바른 이메일 형식이 아닙니다");
-            }
-         });
-      </script>
+      <script src="./bookinglogin.bundle.js">
+       
    </body>
 </html>
