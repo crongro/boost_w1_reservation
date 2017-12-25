@@ -10,7 +10,8 @@ module.exports = {
     detail: './src/detail.js',
     reserve: './src/reserve.js',
     myreservation : './src/myreservation.js',
-    bookinglogin: './src/bookinglogin.js'
+    bookinglogin: './src/bookinglogin.js',
+    reviewWrite: './src/reviewWrite.js'
   },
   plugins: [
   	new CleanWebpackPlugin(['dist']),
