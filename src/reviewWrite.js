@@ -64,6 +64,16 @@ function deleteThumnailImage() {
 		evt.preventDefault();
 		evt.target.closest("li.item").style.display = "none";
 	});
+}
+
+function writeText() {
+	const elWriteInfo = document.querySelector(".review_write_info");
+	const elTextArea = document.querySelector(".review_textarea");
+
+	elWriteInfo.addEventListener("click", (evt) => {
+    elWriteInfo.style.display = "none";
+    elTextArea.focus();
+	}, false);
 
 }
 
@@ -71,6 +81,7 @@ function registerEvents() {
 	setStarRating();
 	changeImageFile();
 	deleteThumnailImage();
+	writeText();
 }
 
 document.addEventListener("DOMContentLoaded", (evt) => {
