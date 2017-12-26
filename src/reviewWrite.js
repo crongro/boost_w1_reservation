@@ -84,11 +84,36 @@ function writeText() {
 }
 
 
+function checkValues() {
+	const star = document.querySelector(".star_rank").innerText;
+	if(star === "0")  {
+		alert("별점을 입력하세요");
+		return;
+	}
+
+	const text = document.querySelector(".review_textarea").value;
+	if(text.length < 5) { 
+		alert("5자이상 리뷰를 남겨주세요");
+		return;
+	}
+
+	return true;
+}
+
+function validateForm() {
+	const btn = document.querySelector(".bk_btn");
+	btn.addEventListener("click", (evt) => {
+		if(checkValues()) console.log("submit ok");
+	});
+}
+
+
 function registerEvents() {
 	setStarRating();
 	changeImageFile();
 	deleteThumnailImage();
 	writeText();
+	validateForm();
 }
 
 document.addEventListener("DOMContentLoaded", (evt) => {
