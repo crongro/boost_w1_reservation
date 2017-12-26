@@ -19,6 +19,7 @@ function cancelReservation() {
 	 elConfirmCard.addEventListener("click", ({target : t}) => {
 	 	if(t.className === "btn" || (t.tagName ==="SPAN" && t.parentElement.className === "btn")) {
 	 		const result = window.confirm('취소하시겠습니까?');
+	 		if(!result) return;
 	 		const elCurrentArticle = t.closest("article");
 	 		elCancelWrap.appendChild(elCurrentArticle);
 	 		elCurrentArticle.querySelector(".booking_cancel").style.display = 'none';
