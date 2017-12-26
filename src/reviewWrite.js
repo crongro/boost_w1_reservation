@@ -75,7 +75,14 @@ function writeText() {
     elTextArea.focus();
 	}, false);
 
+	elTextArea.addEventListener("keyup", ({target:t}) => {
+		const countView = document.querySelector(".guide_review span");
+		var wordLen = t.value.length;
+		t.value = t.value.substring(0, 400);
+		countView.innerText = wordLen;
+	});
 }
+
 
 function registerEvents() {
 	setStarRating();
