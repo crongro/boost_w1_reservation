@@ -78,10 +78,16 @@ function initTabModule() {
 	}
 
 	function afterTabContentChange() {
-		decideBtnVisible();
+		//decideBtnVisible();
 	}
 
 	/*****************************************************/
+
+	//fill first tab menu content
+	initTabComponent().then((tabClass) => {
+		tabMenuObj = tabMenuObj || new tabClass(elTabMenu, itemKinds, afterTabContentChange);
+		tabMenuObj.run(0, false);
+	});
 
 	//TabMenu regist event 
 	elTabMenu.addEventListener("click", ({target}) => {

@@ -5,13 +5,7 @@ class TabMenu {
 		this.elULs = document.querySelectorAll(".lst_event_box");
 		this.fnAfterTabContentChange = fnAfterTabContentChange;
 
-		this.htmlULs = {1:[]}; //html cache
-		this.htmlULs[1][0] = this.elULs[0].innerHTML;
-		this.htmlULs[1][1] = this.elULs[1].innerHTML;
-		this.api = {
-			total : "http://211.249.62.123/api/products?start="
-		}
-
+		this.htmlULs = {0: {liCount:0, data:[]}}; //html cache
 	}
 
 	run(currentIndex, bMoreBtn=false) {
@@ -26,29 +20,33 @@ class TabMenu {
 
 	getHTMLStr(products, tpl) {
 		const htmls = products.map(({description, id, placeName, content}) => {
-			//name = name.replace(/.*(\d{2})/, this.itemKinds[currentIndex-1] + "$1");
 			return eval('`' + tpl + '`');
 		});
 		return htmls;
 	}
 
 	insertHTML(htmls, currentIndex) {
-		const leftList =  htmls[0] + htmls[1];
-		const rightList =  htmls[2] + htmls[3];
+		var leftList = htmls.filter((v,i) => (i%2 ===0) && i <3).reduce( (p,n) => p + n, "");
+		var rightList= htmls.filter((v,i) => (i%2 !==0) && i <4).reduce( (p,n) => p + n, "");
 
 		if(this.bMoreBtn) {
-			this.elULs[1].insertAdjacentHTML('beforeend', rightList);
 			this.elULs[0].insertAdjacentHTML('beforeend', leftList);
-			//추가했음 more버튼 none
-			document.querySelector(".more .btn").style.display = "none";
+			this.elULs[1].insertAdjacentHTML('beforeend', rightList);
 		} else {
 			this.elULs[0].innerHTML = leftList;
 			this.elULs[1].innerHTML = rightList;
 		}
 
-		this.htmlULs[currentIndex] = [];
-		this.htmlULs[currentIndex].push(this.elULs[0].innerHTML);
-		this.htmlULs[currentIndex].push(this.elULs[1].innerHTML);
+		const currentLICount = Array.from(this.elULs).reduce((p,n) => p + n.children.length, 0);
+
+		this.htmlULs[currentIndex] = {data:[], liCount:{}};
+
+		this.htmlULs[currentIndex].liCount = currentLICount;
+		this.htmlULs[currentIndex].data.push(this.elULs[0].innerHTML);
+		this.htmlULs[currentIndex].data.push(this.elULs[1].innerHTML);
+
+		if(htmls.length < 5) document.querySelector(".more .btn").style.display = "none";
+		else document.querySelector(".more .btn").style.display = "block";
 
 		if(typeof this.fnAfterTabContentChange === "function" ) this.fnAfterTabContentChange();
 	}
@@ -64,8 +62,8 @@ class TabMenu {
 		if(this.htmlULs[currentIndex] === undefined) { 
 			this.getData(currentIndex, this.makeTemplate);
 		} else  {
-			this.elULs[0].innerHTML = this.htmlULs[currentIndex][0];
-			this.elULs[1].innerHTML = this.htmlULs[currentIndex][1];
+			this.elULs[0].innerHTML = this.htmlULs[currentIndex].data[0];
+			this.elULs[1].innerHTML = this.htmlULs[currentIndex].data[1];
 			if(typeof this.fnAfterTabContentChange === "function" ) this.fnAfterTabContentChange();
 		}
 	}
@@ -74,9 +72,21 @@ class TabMenu {
 	 * currentindex 1:전체, 2-6 (전시-연극)
 	 */
 	getData(currentIndex, fnCallback) {
-		const apiStart = (currentIndex - 2) * 10; //As.2:0, 3:10. 4:20. 5:30, 6:40
-		//fetch('/resources/mock/main_products.json')
-		fetch(this.api.total + (apiStart))
+
+		let startNumber = 0;
+
+		if(this.htmlULs[currentIndex] !== undefined) {
+			startNumber = this.htmlULs[currentIndex].liCount;
+		}
+
+		//TODO 전체리스트 
+		if(currentIndex ===0) {
+
+		}
+
+		let api = `http://211.249.62.123/api/products?categoryId=${currentIndex}&start=${startNumber}`; 
+ 
+		fetch(api)
 		.then((response) => {
 			return response.json()
 		}).then((json) => {
