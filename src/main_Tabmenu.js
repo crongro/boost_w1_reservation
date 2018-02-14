@@ -5,7 +5,8 @@ class TabMenu {
 		this.elULs = document.querySelectorAll(".lst_event_box");
 		this.fnAfterTabContentChange = fnAfterTabContentChange;
 
-		this.htmlULs = {0: {liCount:0, data:[]}}; //html cache
+		this.htmlULs = {}; 
+		//this.htmlULs = {0: {liCount:0, data:[]}}; //html cache
 	}
 
 	run(currentIndex, bMoreBtn=false) {
@@ -59,7 +60,7 @@ class TabMenu {
 			return;
 		}
 
-		if(this.htmlULs[currentIndex] === undefined) { 
+		if(this.htmlULs[currentIndex] === undefined || this.htmlULs[currentIndex] === null) { 
 			this.getData(currentIndex, this.makeTemplate);
 		} else  {
 			this.elULs[0].innerHTML = this.htmlULs[currentIndex].data[0];
@@ -69,23 +70,29 @@ class TabMenu {
 	}
 
 	/* 
-	 * currentindex 1:전체, 2-6 (전시-연극)
+	 * currentindex 0:전체, 1-5 (전시-연극)
 	 */
 	getData(currentIndex, fnCallback) {
 
 		let startNumber = 0;
+		let api = "";
 
 		if(this.htmlULs[currentIndex] !== undefined) {
 			startNumber = this.htmlULs[currentIndex].liCount;
 		}
 
-		//TODO 전체리스트 
-		if(currentIndex ===0) {
-
+		function apis(strs, currentIndex, startNumber) {
+			let result = "";
+			if(currentIndex===0) {
+				result = strs[0].replace(/(.+\?).+/g,"$1") + strs[1].slice(1) + startNumber;
+			} else {
+				result = strs[0] + currentIndex+ strs[1]+ startNumber;
+			}
+			return result;
 		}
 
-		let api = `http://211.249.62.123/api/products?categoryId=${currentIndex}&start=${startNumber}`; 
- 
+		api = apis`http://211.249.62.123/api/products?categoryId=${currentIndex}&start=${startNumber}`; 
+
 		fetch(api)
 		.then((response) => {
 			return response.json()

@@ -102,8 +102,6 @@ function initTabModule() {
 		initTabComponent().then((tabClass) => {
 			tabMenuObj = tabMenuObj || new tabClass(elTabMenu, itemKinds, afterTabContentChange);
 			tabMenuObj.run(Number(listIdx), false);
-			// //more button 보여줄지 결정
-			// tabMenuObj.decideBtnVisible();
 		});
 
 	});
