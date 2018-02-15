@@ -1,10 +1,10 @@
 import * as Swipe from './lib/swipe_merge_es5.js';
-import * as common from './common.js';
+import * as _ from './common.js';
 import 'whatwg-fetch';
 
 
 function initSwipeModule() {
-	const elSwapWrap = document.querySelector(".visual_img");
+	const elSwapWrap = _.$(".visual_img");
 	const oMyswipe = new Swipe.SweetSwipe( elSwapWrap, {
 		'bCircular' : true,
     'nDuration' : 300,  //default 100
@@ -19,7 +19,7 @@ function initSwipeModule() {
 	oMyswipe.registerUserMethod({
 		'FN_BEFORE_SWIPE': function(n){},
 		'FN_AFTER_SWIPE': function(n) {
-			const elNum = document.querySelector(".figure_pagination .num:nth-child(1)");
+			const elNum = _.$(".figure_pagination .num:nth-child(1)");
 			elNum.innerText = n+1;
 		},
 		'FN_COMPONENT_DID_LOAD' : function(){}
@@ -29,8 +29,8 @@ function initSwipeModule() {
 	{
 		'name'      : 'SwipeStepMoverPlugin',
 		'option'    : {
-			'prevButton' : document.querySelector(".btn_prev"),
-			'nextButton' : document.querySelector(".btn_nxt"),
+			'prevButton' : _.$(".btn_prev"),
+			'nextButton' : _.$(".btn_nxt"),
 			'nDuration': 100
 		},
 		'userMethod' : {},
@@ -42,8 +42,8 @@ function initSwipeModule() {
 /* layer open - close */
 
 function toggleDetailInfo() {
-	const elMores = document.querySelectorAll(".bk_more");
-	const elStore_details = document.querySelector(".store_details");
+	const elMores = _.$$(".bk_more");
+	const elStore_details = _.$(".store_details");
 
 	Array.prototype.forEach.call(elMores, function(element, index) {
 		element.addEventListener("click", ({currentTarget}) => {
@@ -60,7 +60,7 @@ function toggleDetailInfo() {
 
 
 function regReserveLink() {
-	const el = document.querySelector(".bk_btn");
+	const el = _.$(".bk_btn");
 	el.addEventListener("click", (evt) => {
 		location.href = "./reserve.html";
 	}, false);
@@ -68,9 +68,9 @@ function regReserveLink() {
 
 
 function initTabToggle() {
-	const ul = document.querySelector(".info_tab_lst");
-	const detail_area_wrap = document.querySelector(".detail_area_wrap");
-	const detail_location = document.querySelector(".detail_location");
+	const ul = _.$(".info_tab_lst");
+	const detail_area_wrap = _.$(".detail_area_wrap");
+	const detail_location = _.$(".detail_location");
 
 	ul.addEventListener("click", (evt) => {
 		evt.preventDefault();
@@ -91,8 +91,8 @@ function initTabToggle() {
 }
 
 function checkLoginFromStorage() {
-	const email = common.getEmail();
-	const elViewReservation  = document.querySelector(".viewReservation");
+	const email = _.getEmail();
+	const elViewReservation  = _.$(".viewReservation");
 	if(email !== null) elViewReservation.innerText = email;
 }
 
@@ -115,15 +115,42 @@ function setInitialContents() {
 	const id = getIdFromUrl();
 
 	//Title image
-	const imgs = document.querySelectorAll(".visual_img li > img");
+	const imgs = _.$$(".visual_img li > img");
+	const titleTexts = _.$$(".visual_txt_tit");
+	const description = _.$(".dsc");
+	const detailDsc = _.$(".detail_info_lst .in_dsc");
+	const map = _.$(".store_map");
+	const storeName = _.$(".store_name");
+	const storeInfo = _.$(".store_info");
+
 	imgs.forEach( (img) => img.src = `http://211.249.62.123/productImages/${id}?type=ma` );
+	map.src = `http://211.249.62.123/displayInfoImages/${id}`;
 
-	const titleTexts = document.querySelectorAll(".visual_txt_tit");
-	const description = document.querySelector(".dsc");
+	getData(`http://211.249.62.123/api/products/${id}`, ({product}) => {
+		titleTexts.forEach( (ele) => ele.innerText = product.description);
+		description.innerHTML =  product.content;
+		detailDsc.innerText = product.content;
+		storeName.innerText = product.description;
 
-	getData(`http://211.249.62.123/api/products/${id}`, (result) => {
-		titleTexts.forEach( (ele) => ele.innerText = result.product.description);
-		description.innerHTML =  result.product.content;
+		//store info
+		storeInfo.innerHTML = `
+		<div class="store_addr_wrap">
+			<span class="fn fn-pin2"></span>
+			<p class="store_addr store_addr_bold">${product.placeLot}</p>
+			<p class="store_addr">
+				<span class="addr_old">지번</span>
+				<span class="addr_old_detail">${product.placeStreet}</span>
+			</p>
+			<p class="store_addr addr_detail">${product.placeName}</p>
+		</div>
+		<div class="lst_store_info_wrap">
+			<ul class="lst_store_info">
+				<li class="item"> <span class="item_lt"> <i class="fn fn-call2"></i> 
+					<span class="sr_only">전화번호</span> </span> <span class="item_rt"> 
+					<a href="tel:${product.tel}" class="store_tel">${product.tel}</a></span> 
+				</li>
+			</ul>
+		</div>`
 	});
 }
 
