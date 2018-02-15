@@ -96,12 +96,44 @@ function checkLoginFromStorage() {
 	if(email !== null) elViewReservation.innerText = email;
 }
 
+function getIdFromUrl() {
+	return location.search.slice(1);
+}
+
+function getData(api, fn) {
+	fetch(api)
+		.then((response) => {
+			return response.json()
+		}).then((json) => {
+			fn.call(this, json);
+		}).catch((ex) => {
+			console.log('parsing failed', ex)
+		})
+}
+
+function setInitialContents() {
+	const id = getIdFromUrl();
+
+	//Title image
+	const imgs = document.querySelectorAll(".visual_img li > img");
+	imgs.forEach( (img) => img.src = `http://211.249.62.123/productImages/${id}?type=ma` );
+
+	const titleTexts = document.querySelectorAll(".visual_txt_tit");
+	const description = document.querySelector(".dsc");
+
+	getData(`http://211.249.62.123/api/products/${id}`, (result) => {
+		titleTexts.forEach( (ele) => ele.innerText = result.product.description);
+		description.innerHTML =  result.product.content;
+	});
+}
+
 document.addEventListener("DOMContentLoaded", evt => {
 	initSwipeModule();
 	toggleDetailInfo();
 	regReserveLink();
 	initTabToggle();
 	checkLoginFromStorage();
+	setInitialContents();
 });
 
 
