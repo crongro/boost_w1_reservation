@@ -97,7 +97,7 @@ function checkLoginFromStorage() {
 }
 
 function getIdFromUrl() {
-	return location.search.slice(1);
+	return location.search.slice(4);
 }
 
 function getData(api, fn) {
