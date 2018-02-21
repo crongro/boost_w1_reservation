@@ -1,5 +1,5 @@
 import * as Swipe from './lib/swipe_merge_es5.js';
-import * as common from './common.js';
+import * as _ from './common.js';
 import 'whatwg-fetch';
 
 //import _ from './lib/_.js';
@@ -41,6 +41,22 @@ function initSwipeModule() {
 			movePanel();
 		}, 2000);
 	})();
+}
+
+function setPromotionImages(fnAfterCallback) {
+	const target = _.$(".visual_img");
+	_.getData('http://211.249.62.123/api/promotions', ({items}) => {
+		const listTpl = _.$("#promotionItem").innerHTML;
+
+		items.forEach(item => {
+			const productId = item.productId;
+			const productImageId = item.productImageId;
+			const result = eval('`' + listTpl+ '`');
+			target.insertAdjacentHTML("beforeend", result);
+		});
+
+		fnAfterCallback();
+	});
 }
 
 function initTabModule() {
@@ -126,13 +142,13 @@ function initTabModule() {
 }
 
 function checkLoginFromStorage() {
-	const email = common.getEmail();
+	const email = _.getEmail();
 	const elViewReservation  = document.querySelector(".viewReservation");
 	if(email !== null) elViewReservation.innerText = email;
 }
 
 document.addEventListener("DOMContentLoaded", evt => {
-	initSwipeModule();
+	setPromotionImages(initSwipeModule);
 	initTabModule();
 	checkLoginFromStorage();
 });
