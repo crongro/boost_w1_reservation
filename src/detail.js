@@ -59,10 +59,10 @@ function toggleDetailInfo() {
 }
 
 
-function regReserveLink() {
+function regReserveLink(id) {
 	const el = _.$(".bk_btn");
 	el.addEventListener("click", (evt) => {
-		location.href = "./reserve.html";
+		location.href = `./reserve.html?id=${id}`;
 	}, false);
 }
 
@@ -96,23 +96,10 @@ function checkLoginFromStorage() {
 	if(email !== null) elViewReservation.innerText = email;
 }
 
-function getIdFromUrl() {
-	return location.search.slice(4);
-}
 
-function getData(api, fn) {
-	fetch(api)
-		.then((response) => {
-			return response.json()
-		}).then((json) => {
-			fn.call(this, json);
-		}).catch((ex) => {
-			console.log('parsing failed', ex)
-		})
-}
 
 function setInitialContents() {
-	const id = getIdFromUrl();
+	const id = _.getIdFromUrl();
 
 	//Title image
 	const imgs = _.$$(".visual_img li > img");
@@ -126,7 +113,7 @@ function setInitialContents() {
 	imgs.forEach( (img) => img.src = `http://211.249.62.123/productImages/${id}?type=ma` );
 	map.src = `http://211.249.62.123/displayInfoImages/${id}`;
 
-	getData(`http://211.249.62.123/api/products/${id}`, ({product}) => {
+	_.getData(`http://211.249.62.123/api/products/${id}`, ({product}) => {
 		titleTexts.forEach( (ele) => ele.innerText = product.description);
 		description.innerHTML =  product.content;
 		detailDsc.innerText = product.content;
@@ -157,7 +144,7 @@ function setInitialContents() {
 document.addEventListener("DOMContentLoaded", evt => {
 	initSwipeModule();
 	toggleDetailInfo();
-	regReserveLink();
+	regReserveLink(_.getIdFromUrl());
 	initTabToggle();
 	checkLoginFromStorage();
 	setInitialContents();

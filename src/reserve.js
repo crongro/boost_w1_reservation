@@ -1,4 +1,4 @@
-
+import * as _ from './common.js';
 
 class TicketReservation {
 	constructor() {
@@ -9,7 +9,23 @@ class TicketReservation {
 	}
 
 	run() {
+		this.setData();
 		this.regCountBtn();
+	}
+
+	setData() {
+		const id = _.getIdFromUrl();
+
+		const titleImg = _.$('.visual_img img');
+		const titles = [_.$(".top_title .title"), _.$(".preview_txt_tit")];
+		const place = _.$('.dsc');
+
+		titleImg.src = `http://211.249.62.123/productImages/${id}`;
+
+		_.getData(`http://211.249.62.123/api/products/${id}`, ({ product }) => {
+			titles.forEach( (ele) => ele.innerHTML = product.description);
+			place.innerHTML = place.innerHTML.replace(/([^:]+\s*:\s*)[^<]+/, "$1" +  product.placeName);
+		});
 	}
 
 	regCountBtn() {
