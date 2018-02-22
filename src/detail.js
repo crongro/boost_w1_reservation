@@ -97,12 +97,12 @@ function checkLoginFromStorage() {
 }
 
 
-
 function setInitialContents() {
 	const id = _.getIdFromUrl();
 
 	//Title image
-	const imgs = _.$$(".visual_img li > img");
+	//const imgs = _.$$(".visual_img li > img");
+	const ul = _.$(".visual_img");
 	const titleTexts = _.$$(".visual_txt_tit");
 	const description = _.$(".dsc");
 	const detailDsc = _.$(".detail_info_lst .in_dsc");
@@ -110,7 +110,27 @@ function setInitialContents() {
 	const storeName = _.$(".store_name");
 	const storeInfo = _.$(".store_info");
 
-	imgs.forEach( (img) => img.src = `http://211.249.62.123/productImages/${id}?type=ma` );
+	//imgs.forEach( (img) => img.src = `http://211.249.62.123/productImages/${id}?type=ma` );
+
+	_.getData(`http://211.249.62.123/api/productImages/${id}`, ({items}) => {
+		const etcImages = items.filter( item => item.type === 'et');
+		if(etcImages.length === 0) {
+			ul.querySelector("li:nth-child(2) img").src = `http://211.249.62.123/productImages/${id}?type=ma`;
+			_.$$(".prev,.nxt").forEach(ele => ele.style.display="none");
+			_.$(".figure_pagination .off span").innerText = "1";
+		} else {
+			ul.querySelector("li:nth-child(1) img").src = `http://211.249.62.123/productImages/${etcImages[0].productId}/${etcImages[0].productImageId}`;
+			ul.querySelector("li:nth-child(3) img").src = `http://211.249.62.123/productImages/${etcImages[0].productId}/${etcImages[0].productImageId}`;
+			ul.querySelector("li:nth-child(2) img").src = `http://211.249.62.123/productImages/${id}?type=ma`;
+			ul.querySelector("li:nth-child(4) img").src = `http://211.249.62.123/productImages/${id}?type=ma`;
+			initSwipeModule();
+		}
+	});
+
+
+
+
+
 	map.src = `http://211.249.62.123/displayInfoImages/${id}`;
 
 	_.getData(`http://211.249.62.123/api/products/${id}`, ({product}) => {
@@ -142,7 +162,6 @@ function setInitialContents() {
 }
 
 document.addEventListener("DOMContentLoaded", evt => {
-	initSwipeModule();
 	toggleDetailInfo();
 	regReserveLink(_.getIdFromUrl());
 	initTabToggle();
