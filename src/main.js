@@ -55,6 +55,11 @@ function setPromotionImages(fnAfterCallback) {
 			target.insertAdjacentHTML("beforeend", result);
 		});
 
+		const first = target.firstElementChild.cloneNode(true);
+		const last = target.lastElementChild.cloneNode(true);
+		target.appendChild(first);
+		target.insertBefore(last, target.firstElementChild);
+
 		fnAfterCallback();
 	});
 }

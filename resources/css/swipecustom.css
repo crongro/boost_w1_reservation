@@ -47,3 +47,24 @@
   transform: translate3d(300%, 0px, 0px);
   background-color: #FFCDD2;
 }
+
+.visual_img > li:nth-child(6){
+  -ms-transform: translate3d(400%, 0px, 0px);
+  -webkit-transform: translate3d(400%, 0px, 0px);
+  transform: translate3d(400%, 0px, 0px);
+  background-color: #FFCDD2;
+}
+
+.visual_img > li:nth-child(7){
+  -ms-transform: translate3d(500%, 0px, 0px);
+  -webkit-transform: translate3d(500%, 0px, 0px);
+  transform: translate3d(500%, 0px, 0px);
+  background-color: #FFCDD2;
+}
+
+.visual_img > li:nth-child(8){
+  -ms-transform: translate3d(600%, 0px, 0px);
+  -webkit-transform: translate3d(600%, 0px, 0px);
+  transform: translate3d(600%, 0px, 0px);
+  background-color: #FFCDD2;
+}
